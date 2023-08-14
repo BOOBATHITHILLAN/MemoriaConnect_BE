@@ -5,17 +5,17 @@ export const getUser = async (req, res) => {
   try {
     let token = req.header("Authorization");
     token = token.slice(7, token.length).trimLeft();
-    const user = await User.findById(req.user.id);    
+    const user = await User.findById(req.user.id);
     res.status(200).json(user);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
 };
 
-export const getUserprofile=async(req,res)=>{
+export const getUserprofile = async (req, res) => {
   try {
-    const {id}=req.params;
-    const user=await User.findById(id);
+    const { id } = req.params;
+    const user = await User.findById(id);
     res.status(200).json(user)
   } catch (error) {
     res.status(404).json({ message: err.message });
@@ -45,9 +45,9 @@ export const getUserFriends = async (req, res) => {
 export const addRemoveFriend = async (req, res) => {
   try {
     const { _id, friendId } = req.params;
-    const user = await User.findById({_id});
-    const friend = await User.findById({_id:friendId});
-    res.send(user,friend)
+    const user = await User.findById({ _id });
+    const friend = await User.findById({ _id: friendId });
+    res.send(user, friend)
 
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
@@ -58,7 +58,7 @@ export const addRemoveFriend = async (req, res) => {
     }
     await user.save();
     await friend.save();
-    
+
 
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
