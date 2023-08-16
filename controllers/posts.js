@@ -94,3 +94,16 @@ export const commentPost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+//Post and Users length for barChart
+export const userPost=async(req,res)=>{
+  try {
+    const users=await User.find();
+    const posts=await Post.find();  
+    const userLength=users.length  
+    const postLength=posts.length
+    res.status(200).json({userLength,postLength})
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
