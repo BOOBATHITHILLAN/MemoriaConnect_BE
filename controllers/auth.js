@@ -92,6 +92,8 @@ export const login = async (req, res) => {
     if (user.account_activated) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "2h" });
       return res.status(200).json({ token });
+    }else{
+      return res.status(401).json({msg:"Kindly activate your account"})
     }
 
   } catch (err) {
